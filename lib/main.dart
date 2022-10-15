@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         MyRoutes.loginRoute: (context) => Login(),
         MyRoutes.mapRoute: (context) => MyMap(),
         MyRoutes.compRoute: (context) => ComForm(),
-        MyRoutes.statRoute: (context) => UserHome()
+        MyRoutes.statRoute: (context) => UserHome(),
       },
     );
   }
