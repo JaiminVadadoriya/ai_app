@@ -20,12 +20,13 @@ class MyApp extends StatelessWidget {
       // theme: MyTheme.lightTheme(context),
       // darkTheme: MyTheme.darkTheme(context),
       // debugShowCheckedModeBanner: false,
-      initialRoute: MyRoutes.signRoute,
+      // initialRoute: MyRoutes.signRoute,
+      initialRoute: "/",
       //initialRoute: MyRoutes.mapRoute,
       // initialRoute: MyRoutes.compRoute,
 
       routes: {
-        "/": (context) => MyMap(),
+        "/": (context) => Signup(),
         MyRoutes.signRoute: (context) => Signup(),
         MyRoutes.loginRoute: (context) => Login(),
         MyRoutes.mapRoute: (context) => MyMap(),

@@ -24,6 +24,10 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
+  final _formKey = GlobalKey<FormState>();
+  var _passwordVisible = false;
+  var _conPasswordVisible = false;
+
   TextEditingController nameController = TextEditingController();
   TextEditingController mailController = TextEditingController();
   TextEditingController numController = TextEditingController();
@@ -32,7 +36,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Form(
+      key: _formKey,
+      child: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
@@ -55,8 +61,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )),
             Container(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
                 controller: nameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Username can't be empty";
+                  }
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'User Name',
@@ -65,9 +76,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
                 keyboardType: TextInputType.number,
                 controller: numController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Mobile Number can't be empty";
+                  } else if (value.length != 10) {
+                    return "no number is access";
+                  }
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Mobile Number',
@@ -76,8 +94,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
                 controller: mailController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Email can't be empty";
+                  }
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'E-mail',
@@ -85,24 +108,77 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-              child: TextField(
-                obscureText: true,
+              padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
+              child: TextFormField(
+                obscureText: !_passwordVisible,
                 controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Password can't be empty";
+                  } else if (value.length < 8) {
+                    return "Password is too short";
+                  }
+                },
+                decoration: InputDecoration(
                   labelText: 'Password',
+                  hintText: 'Enter your password',
+                  // Here is key idea
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      // Based on passwordVisible state choose the icon
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  ),
                 ),
+
+                // decoration: const InputDecoration(
+                //   border: OutlineInputBorder(),
+                //   labelText: 'Password',
+                // ),
               ),
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 30),
-              child: TextField(
-                obscureText: true,
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 30),
+              child: TextFormField(
+                obscureText: !_conPasswordVisible,
                 controller: confpasswordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Password can't be empty";
+                  } else if (value != passwordController.text) {
+                    return "Password is not same";
+                  }
+                },
+                // decoration: const InputDecoration(
+                //   border: OutlineInputBorder(),
+                //   labelText: 'Confirm Password',
+                // ),
+                decoration: InputDecoration(
                   labelText: 'Confirm Password',
+                  hintText: 'Enter your confirm password',
+                  // Here is key idea
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      // Based on passwordVisible state choose the icon
+                      _conPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        _conPasswordVisible = !_conPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
               ),
             ),
@@ -112,25 +188,26 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                   child: const Text('Register'),
                   onPressed: () {
-                    if (nameController.text.isEmpty ||
-                        numController.text.isEmpty ||
-                        mailController.text.isEmpty) {}
                     if (numController.text.length != 10) {
+                      numController.clear();
                       return;
                     }
-                    if (passwordController.text.length < 8) {
-                      return;
-                    }
+
                     if (passwordController.text !=
                         confpasswordController.text) {
-                      passwordController.clear();
                       confpasswordController.clear();
                       return;
                     }
-                    // print(nameController.text);
-                    // print(passwordController.text);
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => Login())));
+
+                    if (_formKey.currentState!.validate()) {
+                      // If the form is valid, display a snackbar. In the real world,
+                      // you'd often call a server or save the information in a database.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Processing Data')),
+                      );
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: ((context) => Login())));
+                    }
                   },
                 )),
             Row(
@@ -152,6 +229,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

@@ -27,24 +27,28 @@ class MyStatefulWidget extends StatefulWidget {
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController numController = TextEditingController();
+
+  var _passwordVisible = false;
   TextEditingController passwordController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
   _checkIn() {
     // print(nameController.text);
     // print(passwordController.text);
-    if (numController.text.isEmpty ||
-        passwordController.text.isEmpty ||
-        passwordController.text.length < 8 ||
-        numController.text.length != 10) {
-      return;
+    if (_formKey.currentState!.validate()) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: ((context) => MyMap())));
     }
-    Navigator.push(context,
-        MaterialPageRoute(builder: ((context) => MyMap())));
+    if (numController.text.length != 10) {
+      numController.clear();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Form(
+      key: _formKey,
+      child: Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
@@ -67,9 +71,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 )),
             Container(
               padding: const EdgeInsets.all(10),
-              child: TextField(
+              child: TextFormField(
                 keyboardType: TextInputType.number,
                 controller: numController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Mobile Number can't be empty";
+                  } else if (value.length != 10) {
+                    return "no number is access";
+                  }
+                },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Mobile Number',
@@ -78,13 +89,40 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-              child: TextField(
-                obscureText: true,
+              child: TextFormField(
+                obscureText: !_passwordVisible,
                 controller: passwordController,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Password can't be empty";
+                  } else if (value.length < 8) {
+                    return "Password is too short";
+                  }
+                },
+                decoration: InputDecoration(
                   labelText: 'Password',
+                  hintText: 'Enter your password',
+                  // Here is key idea
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      // Based on passwordVisible state choose the icon
+                      _passwordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      // Update the state i.e. toogle the state of passwordVisible variable
+                      setState(() {
+                        _passwordVisible = !_passwordVisible;
+                      });
+                    },
+                  ),
                 ),
+
+                // decoration: const InputDecoration(
+                //   border: OutlineInputBorder(),
+                //   labelText: 'Password',
+                // ),
               ),
             ),
             TextButton(
@@ -121,6 +159,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               mainAxisAlignment: MainAxisAlignment.center,
             ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }
