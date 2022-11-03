@@ -1,6 +1,7 @@
 import 'package:ai_app/pages/comForm.dart';
 import 'package:ai_app/pages/userMap.dart';
 import 'package:ai_app/pages/userhome.dart';
+import 'package:ai_app/utils/themes.dart';
 
 import 'pages/login.dart';
 // import 'pages/map.dart';
@@ -16,17 +17,17 @@ class MyApp extends StatelessWidget {
     return
         //Signup();
         MaterialApp(
-      themeMode: ThemeMode.light,
-      // theme: MyTheme.lightTheme(context),
-      // darkTheme: MyTheme.darkTheme(context),
-      // debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.dark,
+      theme: MyTheme.lightTheme(context),
+      darkTheme: MyTheme.darkTheme(context),
+      debugShowCheckedModeBanner: false,
       // initialRoute: MyRoutes.signRoute,
       initialRoute: "/",
       //initialRoute: MyRoutes.mapRoute,
       // initialRoute: MyRoutes.compRoute,
 
       routes: {
-        "/": (context) => Signup(),
+        "/": (context) => MyMap(),
         MyRoutes.signRoute: (context) => Signup(),
         MyRoutes.loginRoute: (context) => Login(),
         MyRoutes.mapRoute: (context) => MyMap(),

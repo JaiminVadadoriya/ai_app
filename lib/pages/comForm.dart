@@ -1,15 +1,11 @@
 import 'package:ai_app/models/complain.dart';
 import 'package:ai_app/pages/userhome.dart';
+import 'package:ai_app/widgets/probSelect.dart';
 import 'package:flutter/material.dart';
 
-class ComForm extends StatefulWidget {
+class ComForm extends StatelessWidget {
   static const String _title = 'Geo tag App';
 
-  @override
-  State<ComForm> createState() => _ComFormState();
-}
-
-class _ComFormState extends State<ComForm> {
   // List<Complain> allComplain = [
   //   // Complain(id: time, problem: dropdownvalue, description: , address: address, pincode: pincode, comTime: comTime)
   // ];
@@ -42,9 +38,9 @@ class _ComFormState extends State<ComForm> {
     // }
 
     return MaterialApp(
-      title: ComForm._title,
+      title: _title,
       home: Scaffold(
-        appBar: AppBar(title: const Text(ComForm._title)),
+        appBar: AppBar(title: const Text(_title)),
         body: SingleChildScrollView(
           child: Container(
             child: Center(
@@ -60,42 +56,7 @@ class _ComFormState extends State<ComForm> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: DropdownButton(
-                      hint: Text("Select Your Problems"),
-                      isExpanded: true,
-                      items: [
-                        DropdownMenuItem(
-                          child: Text("Road"),
-                          value: "Road",
-                        ),
-                        DropdownMenuItem(
-                          child: Text("Street Light"),
-                          value: "Street Light",
-                        ),
-                        DropdownMenuItem(
-                          child: Text("Garbage Collection"),
-                          value: "Garbage Collection",
-                        ),
-                      ],
-                      // value: dropdownvalue,
-                      onChanged: (value) => {
-                        setState(() {
-                          dropdownvalue = value.toString();
-                        })
-                      },
-                    ),
-                  ),
-                  dropdownvalue.isEmpty
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
-                          child: Text("Please select problem from above"),
-                        )
-                      : Container(
-                          padding: const EdgeInsets.symmetric(vertical: 30),
-                          child: Text("You Select : $dropdownvalue"),
-                        ),
+                  ProbSelect(),
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: TextField(
@@ -103,13 +64,14 @@ class _ComFormState extends State<ComForm> {
                       controller: pinController,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Pin code eg:392350',
+                        labelText: 'Pin code',
+                        hintText: 'eg:392350',
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 30.0,
-                  ),
+                  // SizedBox(
+                  //   height: 30.0,
+                  // ),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: TextField(
