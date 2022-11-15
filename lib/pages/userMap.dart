@@ -132,7 +132,14 @@ class MapSampleState extends State<MapSample> {
         onPressed: () {
           if (_markers.length == 2) {
             Navigator.push(
-                context, MaterialPageRoute(builder: ((context) => ComForm())));
+              context,
+              MaterialPageRoute(
+                builder: ((context) => ComForm(
+                    // currentLoc: _markers[0].position,
+                    // problemLoc: _markers[1].position,
+                    )),
+              ),
+            );
           } else {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text("Please select problem location!!!"),

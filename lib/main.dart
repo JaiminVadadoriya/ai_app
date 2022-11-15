@@ -1,10 +1,8 @@
 import 'package:ai_app/pages/comForm.dart';
 import 'package:ai_app/pages/userMap.dart';
-import 'package:ai_app/pages/userhome.dart';
 import 'package:ai_app/utils/themes.dart';
 
 import 'pages/login.dart';
-// import 'pages/map.dart';
 import 'pages/sign.dart';
 import 'package:flutter/material.dart';
 import 'utils/routes.dart';
@@ -27,12 +25,12 @@ class MyApp extends StatelessWidget {
       // initialRoute: MyRoutes.compRoute,
 
       routes: {
-        "/": (context) => MyMap(),
+        "/": (context) => ComForm(),
         MyRoutes.signRoute: (context) => Signup(),
         MyRoutes.loginRoute: (context) => Login(),
         MyRoutes.mapRoute: (context) => MyMap(),
-        MyRoutes.compRoute: (context) => ComForm(),
-        MyRoutes.statRoute: (context) => UserHome(),
+        // MyRoutes.compRoute: (context) => ComForm(),
+        // MyRoutes.statRoute: (context) => UserHome(),
       },
     );
   }

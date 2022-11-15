@@ -1,15 +1,19 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 class ProbSelect extends StatefulWidget {
-  const ProbSelect({super.key});
+  String dropdownvalue;
+  Function dropDownFun;
 
+  ProbSelect({
+    required this.dropdownvalue,
+    required this.dropDownFun,
+  });
   @override
   State<ProbSelect> createState() => _ProbSelectState();
 }
 
 class _ProbSelectState extends State<ProbSelect> {
-  String dropdownvalue = "";
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,7 +22,9 @@ class _ProbSelectState extends State<ProbSelect> {
           padding: const EdgeInsets.symmetric(horizontal: 18),
           child: DropdownButton(
             hint: Text("Select Your Problems"),
+            value: widget.dropdownvalue,
             isExpanded: true,
+            borderRadius: BorderRadius.all(Radius.circular(.2)),
             items: [
               DropdownMenuItem(
                 child: Text("Road"),
@@ -34,22 +40,15 @@ class _ProbSelectState extends State<ProbSelect> {
               ),
             ],
             // value: dropdownvalue,
-            onChanged: (value) => {
-              setState(() {
-                dropdownvalue = value.toString();
-              })
-            },
+            onChanged: (value) => widget.dropDownFun(value),
           ),
         ),
-        dropdownvalue.isEmpty
+        widget.dropdownvalue.isEmpty
             ? Container(
-                padding: const EdgeInsets.symmetric(vertical: 30),
+                // padding: const EdgeInsets.symmetric(vertical: 30),
                 child: Text("Please select problem from above"),
               )
-            : Container(
-                padding: const EdgeInsets.symmetric(vertical: 30),
-                child: Text("You Select : $dropdownvalue"),
-              ),
+            : Container(),
       ],
     );
   }
