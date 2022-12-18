@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: MyRoutes.compRoute,
 
       routes: {
-        "/": (context) => ComForm(),
+        "/": (context) => Signup(),
         MyRoutes.signRoute: (context) => Signup(),
         MyRoutes.loginRoute: (context) => Login(),
         MyRoutes.mapRoute: (context) => MyMap(),

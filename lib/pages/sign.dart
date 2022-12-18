@@ -1,3 +1,5 @@
+import 'package:ai_app/models/user.dart';
+
 import 'login.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +38,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    User _user;
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -202,11 +206,18 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     if (_formKey.currentState!.validate()) {
                       // If the form is valid, display a snackbar. In the real world,
                       // you'd often call a server or save the information in a database.
+                      _user = User(
+                        name: nameController.text,
+                        phone: numController.text,
+                        email: mailController.text,
+                        password: passwordController.text,
+                      );
+                      print(_user);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(content: Text('Processing Data')),
                       );
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: ((context) => Login())));
+                      // Navigator.push(context,
+                      //     MaterialPageRoute(builder: ((context) => Login())));
                     }
                   },
                 )),
@@ -221,6 +232,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   ),
                   onPressed: () {
                     //log screen
+
                     Navigator.push(context,
                         MaterialPageRoute(builder: ((context) => Login())));
                   },
