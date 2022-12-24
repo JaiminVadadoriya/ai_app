@@ -2,17 +2,19 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class TextFiledCom extends StatelessWidget {
+class TextFiledform extends StatelessWidget {
+  TextInputType? keyType;
   TextEditingController controller;
   final String? labelText;
   final String? hintText;
   Function validator;
-  TextFiledCom({
+  TextFiledform({
     Key? key,
     required this.controller,
     required this.labelText,
     required this.hintText,
     required this.validator,
+    required this.keyType,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,7 @@ class TextFiledCom extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        keyboardType: keyType,
         controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(),

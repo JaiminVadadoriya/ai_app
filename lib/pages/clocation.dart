@@ -145,7 +145,7 @@ class _CLocationState extends State<CLocation> {
       ),
     );
   }
-
+/* 
   Future<Position> _determinePosition() async {
     bool serverEnabled;
     LocationPermission permission;
@@ -173,4 +173,5 @@ class _CLocationState extends State<CLocation> {
     Position position = await Geolocator.getCurrentPosition();
     return position;
   }
+ */
 }

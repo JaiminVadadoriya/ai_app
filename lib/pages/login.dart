@@ -80,6 +80,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   } else if (value.length != 10) {
                     return "no number is access";
                   }
+                  return null;
                 },
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -98,6 +99,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   } else if (value.length < 8) {
                     return "Password is too short";
                   }
+                  return null;
                 },
                 decoration: InputDecoration(
                   labelText: 'Password',

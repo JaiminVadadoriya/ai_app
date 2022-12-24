@@ -3,7 +3,7 @@ import 'package:ai_app/pages/userhome.dart';
 import 'package:ai_app/widgets/probSelect.dart';
 import 'package:ai_app/widgets/textFieldCom.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ComForm extends StatefulWidget {
   // final LatLng currentLoc;
@@ -141,7 +141,7 @@ class _ComFormState extends State<ComForm> {
                           ),
                           allComplain.add(xyz),
                           print(
-                              "\n${dropdownvalue}-${desController.text}-${addrController.text}-${int.parse(pinController.text)}"),
+                              "\n$dropdownvalue-${desController.text}-${addrController.text}-${int.parse(pinController.text)}"),
                           Navigator.push(
                             context,
                             MaterialPageRoute(
