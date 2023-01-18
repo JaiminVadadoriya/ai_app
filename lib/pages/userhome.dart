@@ -13,54 +13,51 @@ class UserHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
-        body: Container(
-            child: ListView.builder(
-          itemCount: allComplain.length,
-          prototypeItem: ListTile(
-            title: Text(allComplain[0].problem),
-            subtitle: Text(allComplain[0].address),
+    return Scaffold(
+      appBar: AppBar(title: const Text(_title)),
+      body: Container(
+          child: ListView.builder(
+        itemCount: allComplain.length,
+        prototypeItem: ListTile(
+          title: Text(allComplain[0].problem),
+          subtitle: Text(allComplain[0].address),
+          trailing: Icon(Icons.edit),
+          isThreeLine: true,
+        ),
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(allComplain[index].problem),
+            subtitle: Text(
+                "${allComplain[index].address}-${allComplain[index].pincode}"),
             trailing: Icon(Icons.edit),
             isThreeLine: true,
+          );
+        },
+      )
+          //  ListView(
+          //   children: const <Widget>[
+          //     Card(
+          //       child: ListTile(
+          //         // leading: FlutterLogo(size: 72.0),
+          //         title: Text('Street Light'),
+          //         subtitle: Text('near krish flat,Nikol gam, Amdavad - 382350'),
+          //         trailing: Icon(Icons.edit),
+          //         isThreeLine: true,
+          //       ),
+          //     ),
+          //     Card(
+          //       child: ListTile(
+          //         // leading: FlutterLogo(size: 72.0),
+          //         title: Text('Road'),
+          //         subtitle: Text(
+          //             'Vrindavan Society, Bapu Nagar, Ahmedabad  - 382160'),
+          //         trailing: Icon(Icons.edit),
+          //         isThreeLine: true,
+          //       ),
+          //     ),
+          //   ],
+          // ),
           ),
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(allComplain[index].problem),
-              subtitle: Text(
-                  "${allComplain[index].address}-${allComplain[index].pincode}"),
-              trailing: Icon(Icons.edit),
-              isThreeLine: true,
-            );
-          },
-        )
-            //  ListView(
-            //   children: const <Widget>[
-            //     Card(
-            //       child: ListTile(
-            //         // leading: FlutterLogo(size: 72.0),
-            //         title: Text('Street Light'),
-            //         subtitle: Text('near krish flat,Nikol gam, Amdavad - 382350'),
-            //         trailing: Icon(Icons.edit),
-            //         isThreeLine: true,
-            //       ),
-            //     ),
-            //     Card(
-            //       child: ListTile(
-            //         // leading: FlutterLogo(size: 72.0),
-            //         title: Text('Road'),
-            //         subtitle: Text(
-            //             'Vrindavan Society, Bapu Nagar, Ahmedabad  - 382160'),
-            //         trailing: Icon(Icons.edit),
-            //         isThreeLine: true,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            ),
-      ),
     );
   }
 }

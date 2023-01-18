@@ -19,20 +19,18 @@ class TextFiledform extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10),
-      child: TextFormField(
-        keyboardType: keyType,
-        controller: controller,
-        decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          // labelText: 'Description about problem',
-          labelText: labelText,
-          // hintText: 'eg:392350',
-          hintText: hintText,
-        ),
-        validator: (value) => validator(value),
+    return TextFormField(
+      keyboardType: keyType,
+      controller: controller,
+      decoration: InputDecoration(
+        // border: OutlineInputBorder(),
+        border: UnderlineInputBorder(),
+        // labelText: 'Description about problem',
+        labelText: labelText,
+        // hintText: 'eg:392350',
+        hintText: hintText,
       ),
+      validator: (value) => validator(value),
     );
   }
 }
