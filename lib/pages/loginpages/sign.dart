@@ -1,13 +1,14 @@
 // import 'package:ai_app/models/user.dart';
-import 'package:ai_app/pages/mobileForOtp.dart';
 import 'package:ai_app/utils/routes.dart';
 import 'package:ai_app/widgets/textFieldform.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../models/users.dart';
+import '../../models/users.dart';
 import 'login.dart';
 import 'package:flutter/material.dart';
+
+import 'mobileForOtp.dart';
 
 class Signup extends StatefulWidget {
   static const String _title = 'Geo tag App';

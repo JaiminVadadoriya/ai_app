@@ -1,13 +1,15 @@
 // import 'package:ai_app/pages/comForm.dart';
-import 'package:ai_app/pages/forOtp.dart';
-import 'package:ai_app/pages/mobileForOtp.dart';
+import 'package:ai_app/pages/comForm.dart';
 import 'package:ai_app/pages/userMap.dart';
+import 'package:ai_app/pages/userhome.dart';
 import 'package:ai_app/utils/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import 'pages/login.dart';
-import 'pages/sign.dart';
+import 'pages/loginpages/forOtp.dart';
+import 'pages/loginpages/login.dart';
+import 'pages/loginpages/mobileForOtp.dart';
+import 'pages/loginpages/sign.dart';
 import 'package:flutter/material.dart';
 import 'utils/routes.dart';
 
@@ -44,8 +46,8 @@ class MyApp extends StatelessWidget {
         MyRoutes.mapRoute: (context) => MyMap(),
         MyRoutes.mobileRoute: (context) => MobileForOtp(),
         MyRoutes.otpRoute: (context) => ForOtp(),
-        // MyRoutes.compRoute: (context) => ComForm(),
-        // MyRoutes.statRoute: (context) => UserHome(),
+        MyRoutes.compRoute: (context) => const ComForm(),
+        MyRoutes.statRoute: (context) => UserHome(),
       },
     );
   }

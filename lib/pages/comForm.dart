@@ -1,3 +1,8 @@
+import 'package:ai_app/pages/userMap.dart';
+import 'package:ai_app/utils/tam_utils.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart'
     show
         AppBar,
@@ -25,6 +30,8 @@ import 'package:ai_app/models/complain.dart';
 import 'package:ai_app/pages/userhome.dart';
 import 'package:ai_app/widgets/probSelect.dart';
 import 'package:ai_app/widgets/textFieldCom.dart';
+
+import '../utils/notification_api.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ComForm extends StatefulWidget {
@@ -43,14 +50,38 @@ class ComForm extends StatefulWidget {
 }
 
 class _ComFormState extends State<ComForm> {
-  List<Complain> allComplain = [
-    Complain(
-      problem: 'Road',
-      desc: 'kuch bhi',
-      address: 'Vrindavan Society, Bapu Nagar, Ahmedabad  - 382160',
-      pincode: 345621,
-    ),
-  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    NotificationApi.initState();
+    listenNotifications();
+  }
+
+  void listenNotifications() =>
+      NotificationApi.onNotification.stream.listen(onClickedNotification);
+
+  void onClickedNotification(String? payload) {}
+  // List<Complain> allComplain = [
+  //   Complain(
+  //     problem: 'Road',
+  //     description: 'kuch bhi',
+  //     address: 'Vrindavan Society, Bapu Nagar, Ahmedabad',
+  //     pincode: 345621,
+  //     complainTime: Timestamp.now(),
+  //     problemLocation: MapSample.complainLoc,
+  //     email: "jaiminvadadoriya@gmail.com",
+  //     // problemLoc: {
+  //     //   "latitude": MapSample.complainLoc.latitude,
+  //     //   "longitude": MapSample.complainLoc.longitude,
+  //     // },
+  //     currentLocation: MapSample.userLocation,
+  //     // currentLoc: {
+  //     //   "latitude": MapSample.userLocation.latitude,
+  //     //   "longitude": MapSample.userLocation.longitude,
+  //     // },
+  //   ),
+  // ];
 
   String dropdownvalue = "Road";
 
@@ -68,7 +99,12 @@ class _ComFormState extends State<ComForm> {
     TextEditingController addrController = TextEditingController();
     TextEditingController pinController = TextEditingController();
 
-    Complain xyz;
+    // below line is used to get the
+    // instance of our FIrebase database.
+    final FirebaseFirestore db = FirebaseFirestore.instance;
+    // below line is used to get collection reference for our database.
+    final collection = db.collection("problems");
+    Complain _complainUser;
     // _submitData() {
     //   Complain ex = Complain(
     //     id: DateTime.now().second,
@@ -151,31 +187,66 @@ class _ComFormState extends State<ComForm> {
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                 child: ElevatedButton(
                   child: const Text('Submit Problem'),
-                  onPressed: () => {
-                    if (_formKey.currentState!.validate())
-                      {
-                        xyz = Complain(
-                          problem: dropdownvalue,
-                          desc: desController.text,
-                          address: addrController.text,
-                          pincode: int.parse(pinController.text),
+                  onPressed: () async {
+                    final userEmail =
+                        await FirebaseAuth.instance.currentUser!.email;
+                    if (_formKey.currentState!.validate()) {
+                      _complainUser = Complain(
+                        problem: dropdownvalue,
+                        description: desController.text,
+                        address: addrController.text,
+                        pincode: int.parse(pinController.text),
+                        // complainTime: DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now),
+                        complainTime: Timestamp.now(),
+                        email: userEmail,
+                        problemLocation: MapSample.complainLoc,
+                        // problemLoc: {
+                        //   "latitude": MapSample.complainLoc.latitude,
+                        //   "longitude": MapSample.complainLoc.longitude,
+                        // },
+                        currentLocation: MapSample.userLocation,
+                        // currentLoc: {
+                        //   "latitude": MapSample.userLocation.latitude,
+                        //   "longitude": MapSample.userLocation.longitude,
+                        // },
+                      );
+
+                      /////////////////////////
+                      ///add to fire base
+                      /////////////////////////
+
+                      final docRef = collection
+                          .withConverter(
+                            fromFirestore: Complain.fromFirestore,
+                            toFirestore: (Complain city, options) =>
+                                city.toFirestore(),
+                          )
+                          .doc();
+
+                      docRef.set(_complainUser).then(
+                            (value) => NotificationApi.showNotification(
+                              title: 'Sarah Abs',
+                              body:
+                                  'hey! Do we have everything we need for the lunch',
+                              payload: 'sarah.abs',
+                            ).onError((error, stackTrace) =>
+                                print("${error} -${stackTrace}")),
+                          );
+                      // allComplain.add(_complainUser);
+                      // print(
+                      //     "\n$dropdownvalue-${desController.text}-${addrController.text}-${int.parse(pinController.text)}"),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UserHome(
+                              // allComplain: allComplain,
+                              ),
                         ),
-                        allComplain.add(xyz),
-                        // print(
-                        //     "\n$dropdownvalue-${desController.text}-${addrController.text}-${int.parse(pinController.text)}"),
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => UserHome(
-                              allComplain: allComplain,
-                            ),
-                          ),
-                        ),
-                      },
-                    if (pinController.text.length != 6)
-                      {
-                        pinController.clear(),
-                      },
+                      );
+                    }
+                    if (pinController.text.length != 6) {
+                      pinController.clear();
+                    }
                   },
                 ),
               ),

@@ -44,6 +44,12 @@ dependencies:
   firebase_auth: ^4.2.1
   pinput: ^2.2.20
   cloud_firestore: ^4.3.1
+  # show local notification
+  flutter_local_notifications: ^13.0.0
+  # listen for notification
+  rxdart: ^0.27.1
+  intl: ^0.17.0
+  timezone: ^0.9.1
 
 dev_dependencies:
   flutter_test:
