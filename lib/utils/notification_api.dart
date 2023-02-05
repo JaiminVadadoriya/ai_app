@@ -1,10 +1,26 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationApi {
   static final _notifictions = FlutterLocalNotificationsPlugin();
   static int idValue = 0;
   static final onNotification = BehaviorSubject<String>();
+  // TimeZone tz = TimeZone(offset, isDst: isDst, abbreviation: abbreviation);
+
+  static Future<void> configureLocalTimeZone() async {
+    if (kIsWeb || Platform.isLinux) {
+      return;
+    }
+    tz.initializeTimeZones();
+    final String? timeZoneName = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName!));
+  }
 
   static Future<void> initState({bool initScheduled = false}) async {
     var initializationSettingsAndroid = AndroidInitializationSettings(
@@ -23,6 +39,10 @@ class NotificationApi {
         onNotification.add(details.payload!);
       },
     );
+
+    tz.initializeTimeZones();
+    final String timeZoneName = await FlutterTimezone.getLocalTimezone();
+    tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
 
   static Future _notifictionsDetails() async {
@@ -57,6 +77,25 @@ class NotificationApi {
       await _notifictionsDetails(),
       payload: payload,
     );
+  }
+
+  static Future<void> showScheduledNotification({
+    // int id = 0,
+    String? title,
+    String? body,
+    String? payload,
+    required DateTime scheduledDate,
+  }) async {
+    _notifictions.zonedSchedule(
+        idValue++,
+        title,
+        body,
+        tz.TZDateTime.from(scheduledDate, tz.local),
+        await _notifictionsDetails(),
+        payload: payload,
+        androidAllowWhileIdle: true,
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime);
   }
 }
 

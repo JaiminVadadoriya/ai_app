@@ -1,8 +1,8 @@
-import 'package:ai_app/pages/userMap.dart';
-import 'package:ai_app/utils/tam_utils.dart';
+import 'package:ai_app/pages/home.dart';
+import 'package:ai_app/widgets/user_map.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 import 'package:flutter/material.dart'
     show
         AppBar,
@@ -27,9 +27,8 @@ import 'package:flutter/material.dart'
         Widget;
 
 import 'package:ai_app/models/complain.dart';
-import 'package:ai_app/pages/userhome.dart';
-import 'package:ai_app/widgets/probSelect.dart';
-import 'package:ai_app/widgets/textFieldCom.dart';
+import 'package:ai_app/widgets/prob_select.dart';
+import 'package:ai_app/widgets/text_field_com.dart';
 
 import '../utils/notification_api.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -195,16 +194,17 @@ class _ComFormState extends State<ComForm> {
                         problem: dropdownvalue,
                         description: desController.text,
                         address: addrController.text,
+                        problemProcess: "register",
                         pincode: int.parse(pinController.text),
                         // complainTime: DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now),
                         complainTime: Timestamp.now(),
                         email: userEmail,
-                        problemLocation: MapSample.complainLoc,
+                        problemLocation: MyMap.complainLoc,
                         // problemLoc: {
                         //   "latitude": MapSample.complainLoc.latitude,
                         //   "longitude": MapSample.complainLoc.longitude,
                         // },
-                        currentLocation: MapSample.userLocation,
+                        currentLocation: MyMap.userLocation,
                         // currentLoc: {
                         //   "latitude": MapSample.userLocation.latitude,
                         //   "longitude": MapSample.userLocation.longitude,
@@ -224,13 +224,18 @@ class _ComFormState extends State<ComForm> {
                           .doc();
 
                       docRef.set(_complainUser).then(
-                            (value) => NotificationApi.showNotification(
-                              title: 'Sarah Abs',
-                              body:
-                                  'hey! Do we have everything we need for the lunch',
-                              payload: 'sarah.abs',
+                            (value) =>
+                                NotificationApi.showScheduledNotification(
+                              title: 'hey',
+                              body: '${docRef.id}',
+                              payload: '${docRef.id}',
+                              scheduledDate: DateTime.now().add(
+                                Duration(
+                                  seconds: 12,
+                                ),
+                              ),
                             ).onError((error, stackTrace) =>
-                                print("${error} -${stackTrace}")),
+                                    print("${error} -${stackTrace}")),
                           );
                       // allComplain.add(_complainUser);
                       // print(
@@ -238,9 +243,7 @@ class _ComFormState extends State<ComForm> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UserHome(
-                              // allComplain: allComplain,
-                              ),
+                          builder: (context) => Home(),
                         ),
                       );
                     }

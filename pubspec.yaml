@@ -50,6 +50,8 @@ dependencies:
   rxdart: ^0.27.1
   intl: ^0.17.0
   timezone: ^0.9.1
+  timeline_tile: ^2.0.0
+  flutter_timezone: ^1.0.4
 
 dev_dependencies:
   flutter_test:

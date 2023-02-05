@@ -1,5 +1,5 @@
 import 'package:ai_app/utils/routes.dart';
-import 'package:ai_app/widgets/textFieldform.dart';
+import 'package:ai_app/widgets/text_field_form.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -149,6 +149,17 @@ class _MobileForOtpState extends State<MobileForOtp> {
                         // Navigator.pushNamedAndRemoveUntil(
                         //     context, MyRoutes.otpRoute, (route) => false);
                         // Navigator.pushNamed(context, MyRoutes.otpRoute);
+
+                        //loading circle
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          },
+                        );
+
                         await FirebaseAuth.instance.verifyPhoneNumber(
                           phoneNumber:
                               '${countryCode.text + numController.text}',
@@ -161,6 +172,10 @@ class _MobileForOtpState extends State<MobileForOtp> {
                             MobileForOtp.mobileNo =
                                 '${countryCode.text + numController.text}';
                             MobileForOtp.verify = verificationId;
+
+                            //pop the loading
+                            Navigator.of(context).pop();
+
                             Navigator.pushNamed(context, MyRoutes.otpRoute);
                           },
                           codeAutoRetrievalTimeout: (String verificationId) {},

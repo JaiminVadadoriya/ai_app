@@ -1,7 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Complain {
@@ -11,11 +9,14 @@ class Complain {
   final String? address;
   final int? pincode;
   final String? email;
+  final String? problemProcess;
   final Timestamp? complainTime;
   final GeoPoint? currentLocation;
   final GeoPoint? problemLocation;
+  final bool? higherAuthority;
 
   Complain({
+    this.higherAuthority = false,
     // this.id,
     required this.problem,
     required this.description,
@@ -23,6 +24,7 @@ class Complain {
     required this.pincode,
     required this.complainTime,
     required this.email,
+    required this.problemProcess,
     required this.currentLocation,
     required this.problemLocation,
   });
@@ -64,8 +66,10 @@ class Complain {
       pincode: data?['pincode'],
       complainTime: data?['complainTime'],
       email: data?['email'],
+      problemProcess: data?['problemProcess'],
       currentLocation: data?['currentLocation'],
       problemLocation: data?['problemLocation'],
+      higherAuthority: data?['higherAuthority'],
     );
   }
 
@@ -91,8 +95,10 @@ class Complain {
       if (pincode != null) 'pincode': pincode,
       if (complainTime != null) 'complainTime': complainTime,
       if (email != null) 'email': email,
+      if (problemProcess != null) 'problemProcess': problemProcess,
       if (currentLocation != null) 'currentLocation': currentLocation,
       if (problemLocation != null) 'problemLocation': problemLocation,
+      if (higherAuthority != null) 'higherAuthority': higherAuthority,
       // if (problemLocation != null) 'problemLocation': problemLocation?.toMap(),
     };
   }
@@ -133,31 +139,32 @@ class Complain {
     return 'Complain( problem: $problem, description: $description, address: $address, pincode: $pincode, complainTime: $complainTime, currentLocation: $currentLocation, problemLocation: $problemLocation)';
   }
 
-  @override
-  bool operator ==(covariant Complain other) {
-    if (identical(this, other)) return true;
+  // @override
+  // bool operator ==(covariant Complain other) {
+  //   if (identical(this, other)) return true;
 
-    return
-        // other.id == id &&
-        other.problem == problem &&
-            other.description == description &&
-            other.address == address &&
-            other.pincode == pincode &&
-            other.complainTime == complainTime &&
-            other.currentLocation == currentLocation &&
-            other.problemLocation == problemLocation;
-  }
+  //   return
+  //       // other.id == id &&
+  //       other.problem == problem &&
+  //           other.description == description &&
+  //           other.address == address &&
+  //           other.pincode == pincode &&
+  //           other.complainTime == complainTime &&
+  //           other.currentLocation == currentLocation &&
+  //           other.problemLocation == problemLocation &&
+  //           other.higherAuthority == higherAuthority;
+  // }
 
-  @override
-  int get hashCode {
-    return
-        //  id.hashCode ^
-        problem.hashCode ^
-            description.hashCode ^
-            address.hashCode ^
-            pincode.hashCode ^
-            complainTime.hashCode ^
-            currentLocation.hashCode ^
-            problemLocation.hashCode;
-  }
+  // @override
+  // int get hashCode {
+  //   return
+  //       //  id.hashCode ^
+  //       problem.hashCode ^
+  //           description.hashCode ^
+  //           address.hashCode ^
+  //           pincode.hashCode ^
+  //           complainTime.hashCode ^
+  //           currentLocation.hashCode ^
+  //           problemLocation.hashCode;
+  // }
 }

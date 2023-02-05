@@ -1,11 +1,11 @@
 import 'package:ai_app/utils/routes.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 
-import 'mobileForOtp.dart';
+import 'mobile_for_otp.dart';
 
 class ForOtp extends StatelessWidget {
   static const String _title = 'Geo tag App';
@@ -111,6 +111,16 @@ class ForOtp extends StatelessWidget {
                       const SnackBar(content: Text('Processing Data')),
                     );
                     try {
+                      //loading circle
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      );
+
                       // Create a PhoneAuthCredential with the code
                       PhoneAuthCredential credential =
                           PhoneAuthProvider.credential(
@@ -120,6 +130,9 @@ class ForOtp extends StatelessWidget {
                       // Sign the user in (or link) with the credential
 
                       await auth.signInWithCredential(credential);
+
+                      //pop the loading
+                      Navigator.of(context).pop();
 
                       Navigator.pushNamedAndRemoveUntil(
                           context, MyRoutes.signRoute, ((route) => false));

@@ -1,4 +1,4 @@
-import 'package:ai_app/pages/userMap.dart';
+import 'package:ai_app/widgets/user_map.dart';
 import 'package:ai_app/utils/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -147,12 +147,28 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   // print(passwordController.text);
                   if (_formKey.currentState!.validate()) {
                     try {
+                      //loading circle
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      );
+
+                      // checking Email AND Password
                       final credential = await FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: mailController.text,
                               password: passwordController.text);
+
+                      //pop the loading
+                      Navigator.of(context).pop();
+
+                      // send to new page
                       Navigator.pushNamedAndRemoveUntil(
-                          context, MyRoutes.mapRoute, ((route) => false));
+                          context, MyRoutes.homeRoute, ((route) => false));
                     } on FirebaseAuthException catch (e) {
                       if (e.code == 'user-not-found') {
                         ScaffoldMessenger.of(context).showSnackBar(

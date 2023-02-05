@@ -1,6 +1,6 @@
 // import 'package:ai_app/models/user.dart';
 import 'package:ai_app/utils/routes.dart';
-import 'package:ai_app/widgets/textFieldform.dart';
+import 'package:ai_app/widgets/text_field_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,7 +8,7 @@ import '../../models/users.dart';
 import 'login.dart';
 import 'package:flutter/material.dart';
 
-import 'mobileForOtp.dart';
+import 'mobile_for_otp.dart';
 
 class Signup extends StatefulWidget {
   static const String _title = 'Geo tag App';
@@ -196,11 +196,46 @@ class _SignupState extends State<Signup> {
 
                       if (_formKey.currentState!.validate()) {
                         try {
+                          //loading circle
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          );
                           final credential = await FirebaseAuth.instance
                               .createUserWithEmailAndPassword(
                             email: mailController.text,
                             password: passwordController.text,
                           );
+                          final user = credential.user;
+                          await user
+                              ?.updateDisplayName(nameController.text)
+                              .then((value) => print("saved"))
+                              .onError(
+                                (error, stackTrace) =>
+                                    print("ethe he ${error} - ${stackTrace}"),
+                              );
+
+                          //pop the loading
+                          Navigator.of(context).pop();
+
+                          // if (user != null) {
+                          //   for (final providerProfile in user.providerData) {
+                          //     // ID of the provider (google.com, apple.com, etc.)
+                          //     final provider = providerProfile.providerId;
+
+                          //     // UID specific to the provider
+                          //     final uid = providerProfile.uid;
+
+                          //     // Name, email address, and profile photo URL
+                          //     final name = providerProfile.displayName;
+                          //     final emailAddress = providerProfile.email;
+                          //     final profilePhoto = providerProfile.photoURL;
+                          //   }
+                          // }
                         } on FirebaseAuthException catch (e) {
                           if (e.code == 'weak-password') {
                             ScaffoldMessenger.of(context).showSnackBar(
