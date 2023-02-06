@@ -87,7 +87,6 @@ class _UserProblemState extends State<UserProblem> {
       future: _initProblemsData,
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
-          case ConnectionState.none:
           case ConnectionState.waiting:
           case ConnectionState.active:
             {
@@ -165,6 +164,10 @@ class _UserProblemState extends State<UserProblem> {
                   // ),
                 ),
               );
+            }
+          case ConnectionState.none:
+            {
+              return Placeholder();
             }
         }
       },

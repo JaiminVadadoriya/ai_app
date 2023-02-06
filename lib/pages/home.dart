@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class Home extends StatefulWidget {
@@ -156,37 +157,64 @@ class _HomeState extends State<Home> {
               icon: const Icon(Icons.add),
             )
           : null,
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
-        selectedIconTheme: IconThemeData(
-          color: Colors.black87,
+      // bottomNavigationBar: BottomNavigationBar(
+      //   elevation: 0,
+      //   selectedIconTheme: IconThemeData(
+      //     color: Colors.black87,
+      //   ),
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //       backgroundColor: Colors.transparent,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.list),
+      //       label: 'All Problems',
+      //       backgroundColor: Colors.transparent,
+      //       // backgroundColor: Colors.green,
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_circle),
+      //       label: 'My Problems',
+      //       backgroundColor: Colors.transparent,
+      //     ),
+      //     // BottomNavigationBarItem(
+      //     //   icon: Icon(Icons.settings),
+      //     //   label: 'Settings',
+      //     //   backgroundColor: Colors.transparent,
+      //     // ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: Colors.black87,
+      //   onTap: _onItemTapped,
+      // ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10.0,
+          vertical: 15.0,
         ),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.transparent,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'All Problems',
-            backgroundColor: Colors.transparent,
-            // backgroundColor: Colors.green,
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'My Problems',
-            backgroundColor: Colors.transparent,
-          ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.settings),
-          //   label: 'Settings',
-          //   backgroundColor: Colors.transparent,
-          // ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black87,
-        onTap: _onItemTapped,
+        child: GNav(
+          gap: 10,
+          activeColor: Theme.of(context).primaryColor,
+          tabBackgroundColor: Theme.of(context).secondaryHeaderColor,
+          onTabChange: _onItemTapped,
+          padding: EdgeInsets.all(10),
+          tabs: [
+            GButton(
+              icon: Icons.home,
+              text: 'Home',
+            ),
+            GButton(
+              icon: Icons.list,
+              text: 'All Problems',
+            ),
+            GButton(
+              icon: Icons.account_circle,
+              text: 'My Problems',
+            ),
+          ],
+        ),
       ),
     );
   }

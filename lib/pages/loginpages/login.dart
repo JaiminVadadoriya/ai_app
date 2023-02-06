@@ -2,7 +2,6 @@ import 'package:ai_app/widgets/user_map.dart';
 import 'package:ai_app/utils/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'sign.dart';
 import 'package:flutter/material.dart';
 
 class Login extends StatelessWidget {
