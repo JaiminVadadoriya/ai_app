@@ -1,3 +1,4 @@
+import 'package:ai_app/pages/feedbck.dart';
 import 'package:ai_app/pages/home.dart';
 import 'package:ai_app/widgets/user_map.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,7 +61,13 @@ class _ComFormState extends State<ComForm> {
   void listenNotifications() =>
       NotificationApi.onNotification.stream.listen(onClickedNotification);
 
-  void onClickedNotification(String? payload) {}
+  void onClickedNotification(String? payload) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FeedBck(documentId: payload),
+      ),
+    );
+  }
   // List<Complain> allComplain = [
   //   Complain(
   //     problem: 'Road',
@@ -234,8 +241,10 @@ class _ComFormState extends State<ComForm> {
                                   seconds: 12,
                                 ),
                               ),
-                            ).onError((error, stackTrace) =>
-                                    print("${error} -${stackTrace}")),
+                            ).onError(
+                              (error, stackTrace) =>
+                                  print("${error} -${stackTrace}"),
+                            ),
                           );
                       // allComplain.add(_complainUser);
                       // print(

@@ -27,7 +27,14 @@ class _AllProblemState extends State<AllProblem> {
 
   Future<void> _initProblems() async {
     List<String> documentIds = [];
-    await FirebaseFirestore.instance.collection('problems').get().then(
+    await FirebaseFirestore.instance
+        .collection('problems')
+        .where(
+          "problemProcess",
+          isNotEqualTo: "completed",
+        )
+        .get()
+        .then(
           (snapshot) => snapshot.docs.forEach(
             (document) {
               documentIds.add(document.reference.id);
@@ -40,7 +47,14 @@ class _AllProblemState extends State<AllProblem> {
 
   Future<void> _refreshProblems() async {
     List<String> documentIds = [];
-    await FirebaseFirestore.instance.collection('problems').get().then(
+    await FirebaseFirestore.instance
+        .collection('problems')
+        .where(
+          "problemProcess",
+          isNotEqualTo: "completed",
+        )
+        .get()
+        .then(
           (snapshot) => snapshot.docs.forEach(
             (document) {
               documentIds.add(document.reference.id);

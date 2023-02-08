@@ -5,7 +5,7 @@ class MyTheme {
   static ThemeData lightTheme(BuildContext context) => ThemeData(
         // primarySwatch: Colors.indigo,
         // 3F51BE
-        colorSchemeSeed: Color(0xFF3F51BE),
+        colorSchemeSeed: Color.fromRGBO(63, 81, 190, 1),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
