@@ -3,6 +3,7 @@
 import 'package:ai_app/pages/feedbck.dart';
 import 'package:ai_app/pages/statusbar.dart';
 import 'package:ai_app/utils/notification_api.dart';
+import 'package:ai_app/widgets/select_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -93,6 +94,7 @@ class _UserProblemState extends State<UserProblem> {
         );
       });
     }
+    _docIds = documentIds;
   }
 
   Future<void> _refreshProblems() async {
@@ -149,8 +151,9 @@ class _UserProblemState extends State<UserProblem> {
                 onRefresh: _refreshProblems,
                 child: ListView.builder(
                   itemCount: _docIds.length,
-                  prototypeItem: ListTile(
-                    title: Text("Document Ids"),
+                  prototypeItem: const SizedBox(
+                    height: 80,
+                    width: double.infinity,
                   ),
 
                   // To make listView scrollable
@@ -258,6 +261,7 @@ Widget getSamashya(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: ListTile(
+            leading: SelectImage(problem: data["problem"]),
             title: Text("${data['problem']}"),
             subtitle: Text("${data['address']}"),
             trailing: IconButton(
@@ -283,10 +287,7 @@ Widget getSamashya(
                   ],
                 ),
               ),
-              icon: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 40),
-                child: Icon(Icons.delete),
-              ),
+              icon: Icon(Icons.delete),
             ),
             onTap: () => {
               Navigator.push(

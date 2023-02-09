@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:ai_app/widgets/select_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -29,40 +30,29 @@ class GetSamashya extends StatelessWidget {
           // Map<String, dynamic> data =
           //     snapshot.data!.data() as Map<String, dynamic>;
 
-          return Material(
+          return Card(
             // elevation: 3,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0, 0, 0, 0),
-              child: ListTile(
-                leading: CircleAvatar(
-                  radius: 20,
-                  child: Padding(
-                    padding: EdgeInsets.all(6),
-                    child: FittedBox(
-                      child: Text(
-                        '12',
-                      ),
-                    ),
-                  ),
-                ),
-                title: Text(
-                    "${complain.problem} - ${TimeAgo.getTimeAgo(complain.complainTime?.millisecondsSinceEpoch as int)}"),
-                subtitle: Text("${complain.address}"),
-                onTap: () => {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => InfoProblem(complain: complain),
-                      ))
-                },
-                // trailing: IconButton(
-                //   icon: Icon(Icons.edit),
-                //   onPressed: () {},
-                // ),
-
-                isThreeLine: true,
-                // isThreeLine: true,
+            child: ListTile(
+              leading: SelectImage(
+                problem: complain.problem,
               ),
+              title: Text(
+                  "${complain.problem} - ${TimeAgo.getTimeAgo(complain.complainTime?.millisecondsSinceEpoch as int)}"),
+              subtitle: Text("${complain.address}"),
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InfoProblem(complain: complain),
+                    ))
+              },
+              // trailing: IconButton(
+              //   icon: Icon(Icons.edit),
+              //   onPressed: () {},
+              // ),
+
+              isThreeLine: true,
+              // isThreeLine: true,
             ),
           );
           // return ListTile(

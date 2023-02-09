@@ -100,8 +100,9 @@ class _AllProblemState extends State<AllProblem> {
                 onRefresh: _refreshProblems,
                 child: ListView.builder(
                   itemCount: _docIds.length,
-                  prototypeItem: ListTile(
-                    title: Text("Document Ids"),
+                  prototypeItem: Container(
+                    height: 90,
+                    width: double.infinity,
                   ),
                   itemBuilder: (context, index) {
                     return GetSamashya(

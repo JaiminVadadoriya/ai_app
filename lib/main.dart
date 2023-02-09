@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'utils/routes.dart';
 
 void main() async {
-  debugRepaintRainbowEnabled = true;
+  // debugRepaintRainbowEnabled = true;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await NotificationApi.configureLocalTimeZone();

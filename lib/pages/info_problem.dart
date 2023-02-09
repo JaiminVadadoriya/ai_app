@@ -20,101 +20,103 @@ class InfoProblem extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 15,
-          vertical: 10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(
-                horizontal: 15,
-                vertical: 10,
-              ),
-              width: double.infinity,
-              child: Text(
-                "${complain.problem}",
-                style: TextStyle(
-                  fontSize: 26,
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: 15,
+            vertical: 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(
+                  horizontal: 15,
+                  vertical: 10,
                 ),
-                textAlign: TextAlign.center,
+                width: double.infinity,
+                child: Text(
+                  "-${complain.problem}-",
+                  style: TextStyle(
+                    fontSize: 26,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Address:",
-              style: TextStyle(
-                fontSize: 18,
+              SizedBox(
+                height: 10,
               ),
-              textAlign: TextAlign.left,
-            ),
-            Text("${complain.address}"),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(),
-            Text(
-              "Time:",
-              style: TextStyle(
-                fontSize: 18,
+              Text(
+                "Address:",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
-            ),
-            Text("${complain.complainTime?.toDate()}"),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(),
-            Text(
-              "Description:",
-              style: TextStyle(
-                fontSize: 18,
+              Text("${complain.address}"),
+              SizedBox(
+                height: 8,
               ),
-              textAlign: TextAlign.left,
-            ),
-            Text("${complain.description}"),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(),
-            Text(
-              "Problem Location:",
-              style: TextStyle(
-                fontSize: 18,
+              Divider(),
+              Text(
+                "Time:",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.left,
-            ),
-            Text(
-                "[ ${complain.problemLocation?.latitude} - ${complain.problemLocation?.longitude} ]"),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(),
-            Text(
-              "Process:",
-              style: TextStyle(
-                fontSize: 18,
+              Text("${complain.complainTime?.toDate()}"),
+              SizedBox(
+                height: 8,
               ),
-              textAlign: TextAlign.left,
-            ),
-            Text("${complain.problemProcess}"),
-            SizedBox(
-              height: 8,
-            ),
-            Divider(),
-            Text(
-              "Pincode:",
-              style: TextStyle(
-                fontSize: 18,
+              Divider(),
+              Text(
+                "Description:",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
               ),
-              textAlign: TextAlign.right,
-            ),
-            Text("${complain.pincode}"),
-          ],
+              Text("${complain.description}"),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(),
+              Text(
+                "Problem Location:",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
+              ),
+              Text(
+                  "[ ${complain.problemLocation?.latitude} - ${complain.problemLocation?.longitude} ]"),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(),
+              Text(
+                "Process:",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.left,
+              ),
+              Text("${complain.problemProcess}"),
+              SizedBox(
+                height: 8,
+              ),
+              Divider(),
+              Text(
+                "Pincode:",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+                textAlign: TextAlign.right,
+              ),
+              Text("${complain.pincode}"),
+            ],
+          ),
         ),
       ),
     );

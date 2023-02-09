@@ -38,6 +38,16 @@ class _StatusbarState extends State<Statusbar> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.problemProcess == "register") {
+      current_step = 0;
+    } else if (widget.problemProcess == "confirmed") {
+      current_step = 1;
+    } else if (widget.problemProcess == "processed") {
+      current_step = 2;
+    } else if (widget.problemProcess == "completed") {
+      current_step = 3;
+    }
+
     IndicatorStyle indiCompleted = IndicatorStyle(
       width: 25,
       indicatorXY: .5,
@@ -60,17 +70,26 @@ class _StatusbarState extends State<Statusbar> {
         iconData: Icons.loop_rounded,
       ),
     );
-    // IndicatorStyle indiNotComplete = IndicatorStyle(
-    //   width: 20,
-    //   indicatorXY: .5,
-    //   padding: EdgeInsets.all(8.0),
-    //   color: Theme.of(context).primaryColor,
-    //   iconStyle: IconStyle(
-    //     fontSize: 15,
-    //     color: Colors.white,
-    //     iconData: Icons.loop_rounded,
-    //   ),
-    // );
+    LineStyle linecomplete = LineStyle(color: Theme.of(context).primaryColor);
+    LineStyle lineStyle = LineStyle();
+    TextStyle textcomplete = TextStyle(
+      fontSize: 20,
+      color: Theme.of(context).primaryColor,
+    );
+    TextStyle textprocess = TextStyle(
+      fontSize: 20,
+    );
+    IndicatorStyle indiNotComplete = IndicatorStyle(
+      width: 20,
+      indicatorXY: .5,
+      // padding: EdgeInsets.all(8.0),
+      // // color: Theme.of(context).primaryColor,
+      // iconStyle: IconStyle(
+      //   fontSize: 15,
+      //   color: Colors.white,
+      //   iconData: Icons.loop_rounded,
+      // ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: const Text("Problem Status"),
@@ -85,7 +104,7 @@ class _StatusbarState extends State<Statusbar> {
             alignment: TimelineAlign.manual,
             lineXY: .1,
             isFirst: true,
-            afterLineStyle: LineStyle(color: Theme.of(context).primaryColor),
+            afterLineStyle: linecomplete,
             indicatorStyle: indiCompleted,
             endChild: Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
@@ -101,42 +120,36 @@ class _StatusbarState extends State<Statusbar> {
           TimelineTile(
             alignment: TimelineAlign.manual,
             lineXY: .1,
-            afterLineStyle: LineStyle(
-              color: Theme.of(context).primaryColor,
-            ),
-            beforeLineStyle: LineStyle(
-              color: Theme.of(context).primaryColor,
-            ),
-            indicatorStyle: indiCompleted,
+            afterLineStyle: current_step > 0 ? linecomplete : lineStyle,
+            beforeLineStyle: current_step > 0 ? linecomplete : lineStyle,
+            indicatorStyle: current_step > 0
+                ? indiCompleted
+                : current_step > -1
+                    ? indiProcess
+                    : indiNotComplete,
             endChild: Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 "Complain Confirmed",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).primaryColor,
-                ),
+                style: current_step > 0 ? textcomplete : textprocess,
               ),
             ),
           ),
           TimelineTile(
             alignment: TimelineAlign.manual,
             lineXY: .1,
-            afterLineStyle: LineStyle(
-              color: Theme.of(context).primaryColor,
-            ),
-            beforeLineStyle: LineStyle(
-              color: Theme.of(context).primaryColor,
-            ),
-            indicatorStyle: indiProcess,
+            afterLineStyle: current_step > 1 ? linecomplete : lineStyle,
+            beforeLineStyle: current_step > 1 ? linecomplete : lineStyle,
+            indicatorStyle: current_step > 1
+                ? indiCompleted
+                : current_step > 0
+                    ? indiProcess
+                    : indiNotComplete,
             endChild: Container(
               margin: EdgeInsets.symmetric(horizontal: 10),
               child: Text(
                 "Complain Processed",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Theme.of(context).primaryColor,
-                ),
+                style: current_step > 1 ? textcomplete : textprocess,
               ),
             ),
           ),
