@@ -68,7 +68,9 @@ class GetSamashya extends StatelessWidget {
           //   // isThreeLine: true,
           // );
         }
-        return Text("waiting");
+        return Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }

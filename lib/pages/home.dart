@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:ai_app/models/users.dart';
 import 'package:ai_app/pages/com_form.dart';
 import 'package:ai_app/utils/notification_api.dart';
+import 'package:ai_app/utils/routes.dart';
 import 'package:ai_app/widgets/user_map.dart';
 import 'package:ai_app/widgets/all_problem.dart';
 import 'package:ai_app/widgets/user_problem.dart';
@@ -29,6 +31,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // getUser();
+  }
+
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -36,7 +45,7 @@ class _HomeState extends State<Home> {
     });
   }
 
-// created method for getting user current location
+  // created method for getting user current location
   Future<Position> getUserCurrentLocation() async {
     await Geolocator.requestPermission()
         .then((value) {})
@@ -49,7 +58,7 @@ class _HomeState extends State<Home> {
 
   void dekhBinod() async {
     await getUserCurrentLocation().then((value) async {
-      print(value.latitude.toString() + " " + value.longitude.toString());
+      // print(value.latitude.toString() + " " + value.longitude.toString());
       MyMap.userLocation = GeoPoint(value.latitude, value.longitude);
 
       // position: LatLng(value.latitude, value.longitude),
@@ -69,6 +78,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // String name = getUser();
     // https://firebase.google.com/docs/firestore/query-data/get-data
 //     // below line is used to get the
 //     // instance of our FIrebase database.
@@ -120,41 +130,136 @@ class _HomeState extends State<Home> {
                 ),
               ],
             )
-          : AppBar(
+          :
+          //  _selectedIndex == 1
+          //     ?
+          AppBar(
               title: const Text("Problems"),
+              //   )
+              // : AppBar(
+
+              //     title: const Text("Problems"),
+              //     actions: <Widget>[
+              //       // on pressing icon button the camera will take to user current location
+              //       IconButton(
+              //         tooltip: 'Sign Out',
+              //         icon: const Icon(Icons.logout_rounded),
+              //         onPressed: () {
+              //           dekhBinod();
+              //         },
+              //       ),
+              //     ],
             ),
+      drawer: Drawer(
+        // Add a ListView to the drawer. This ensures the user can scroll
+        // through the options in the drawer if there isn't enough vertical
+        // space to fit everything.
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Center(
+                  child: Column(
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    radius: 40,
+                    child: Padding(
+                      padding: EdgeInsets.all(0),
+                      child: FittedBox(
+                        child: Icon(
+                          Icons.account_circle_rounded,
+                          size: 80,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    "${FirebaseAuth.instance.currentUser?.email}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                    ),
+                  ),
+                ],
+              )),
+            ),
+            ListTile(
+              title: const Text('Signout'),
+              trailing: Icon(Icons.logout_rounded),
+              onTap: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text('Signout'),
+                  content: const Text('Are you want to Signout?'),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel'),
+                    ),
+                    TextButton(
+                      onPressed: () async {
+                        // Update the state of the app
+                        // ...
+                        // Then close the drawer
+                        await FirebaseAuth.instance.signOut();
+
+                        // send to new page
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, MyRoutes.loginRoute, ((route) => false));
+                      },
+                      child: const Text('OK'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
       body: widgetOptions.elementAt(_selectedIndex),
       // on pressing floating action button the camera will take to user current location
       floatingActionButton: _selectedIndex == 0
-          ? FloatingActionButton.extended(
-              onPressed: () async {
-                // NotificationApi.initState();
+          ? Container(
+              margin: EdgeInsets.symmetric(horizontal: 100),
+              child: FloatingActionButton.extended(
+                onPressed: () async {
+                  // NotificationApi.initState();
 
-                // // void listenNotifications() =>
-                // //     NotificationApi.onNotification.stream.listen(onClickedNotification);
-                // NotificationApi.showScheduledNotification(
-                //   title: 'hi${FirebaseAuth.instance.currentUser?.displayName}',
-                //   body: 'hey! Do we have everything we need for the lunch',
-                //   payload: 'sarah.abs',
-                //   scheduledDate: tz.TZDateTime.now(tz.local).add(
-                //     const Duration(seconds: 1),
-                //   ),
-                // );
-                if (MyMap.problemSelected) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: ((context) => const ComForm()),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Please select problem location!!!"),
-                  ));
-                }
-              },
-              label: const Text('Raise Complain'),
-              icon: const Icon(Icons.add),
+                  // // void listenNotifications() =>
+                  // //     NotificationApi.onNotification.stream.listen(onClickedNotification);
+                  // NotificationApi.showScheduledNotification(
+                  //   title: 'hi${FirebaseAuth.instance.currentUser?.displayName}',
+                  //   body: 'hey! Do we have everything we need for the lunch',
+                  //   payload: 'sarah.abs',
+                  //   scheduledDate: tz.TZDateTime.now(tz.local).add(
+                  //     const Duration(seconds: 1),
+                  //   ),
+                  // );
+                  if (MyMap.problemSelected) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: ((context) => const ComForm()),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Please select problem location!!!"),
+                    ));
+                  }
+                },
+                label: const Text('Raise Complain'),
+                icon: const Icon(Icons.add),
+              ),
             )
           : null,
       // bottomNavigationBar: BottomNavigationBar(
