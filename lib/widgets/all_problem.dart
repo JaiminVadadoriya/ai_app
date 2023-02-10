@@ -91,7 +91,7 @@ class _AllProblemState extends State<AllProblem> {
           case ConnectionState.active:
             {
               return Center(
-                child: Text('Loading...'),
+                child: CircularProgressIndicator(),
               );
             }
           case ConnectionState.done:

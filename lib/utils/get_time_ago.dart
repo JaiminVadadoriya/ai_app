@@ -16,7 +16,7 @@ class TimeAgo {
     } else if (diff < 2 * MINUTE_MILLIS) {
       return "a minute ago";
     } else if (diff < 50 * MINUTE_MILLIS) {
-      return "${(diff / MINUTE_MILLIS).toString()} minutes ago";
+      return "${(diff / MINUTE_MILLIS).floor()} minutes ago";
     } else if (diff < 90 * MINUTE_MILLIS) {
       return "an hour ago";
     } else if (diff < 24 * HOUR_MILLIS) {

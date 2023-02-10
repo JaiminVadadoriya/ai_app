@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:ai_app/widgets/getSamashaya.dart';
+import 'package:ai_app/models/users.dart';
 import 'package:ai_app/pages/feedbck.dart';
 import 'package:ai_app/pages/statusbar.dart';
 import 'package:ai_app/utils/notification_api.dart';
@@ -149,73 +150,113 @@ class _UserProblemState extends State<UserProblem> {
             {
               return RefreshIndicator(
                 onRefresh: _refreshProblems,
-                child: ListView.builder(
-                  itemCount: _docIds.length,
-                  prototypeItem: const SizedBox(
-                    height: 80,
-                    width: double.infinity,
-                  ),
+                child: _docIds.length > 0
+                    ? ListView.builder(
+                        itemCount: _docIds.length,
+                        prototypeItem: const SizedBox(
+                          height: 80,
+                          width: double.infinity,
+                        ),
 
-                  // To make listView scrollable
-                  // even if there is only a single item.
-                  physics: const AlwaysScrollableScrollPhysics(),
+                        // To make listView scrollable
+                        // even if there is only a single item.
+                        physics: const AlwaysScrollableScrollPhysics(),
 
-                  itemBuilder: (context, index) {
-                    return getSamashya(
-                      context: context,
-                      documentId: _docIds[index],
-                    );
-                    // return ListTile(
-                    //   title: Text(docIds[index]),
-                    //   trailing: Icon(Icons.edit),
-                    //   // isThreeLine: true,
-                    // ),
-                  },
-                  // );
-                  // },
+                        itemBuilder: (context, index) {
+                          return getSamashya(
+                            context: context,
+                            documentId: _docIds[index],
+                          );
+                          // return ListTile(
+                          //   title: Text(docIds[index]),
+                          //   trailing: Icon(Icons.edit),
+                          //   // isThreeLine: true,
+                          // ),
+                        },
+                        // );
+                        // },
 
-                  //     child: ListView.builder(
-                  //   itemCount: allComplain.length,
-                  //   prototypeItem: ListTile(
-                  //     title: Text(allComplain[0].problem! + ""),
-                  //     subtitle: Text(allComplain[0].address!),
-                  //     trailing: Icon(Icons.edit),
-                  //     isThreeLine: true,
-                  //   ),
-                  //   itemBuilder: (context, index) {
-                  //     return ListTile(
-                  //       title: Text(allComplain[index].problem!),
-                  //       subtitle: Text(
-                  //           "${allComplain[index].address}-${allComplain[index].pincode}"),
-                  //       trailing: Icon(Icons.edit),
-                  //       isThreeLine: true,
-                  //     );
-                  //   },
-                  // )
-                  //  ListView(
-                  //   children: const <Widget>[
-                  //     Card(
-                  //       child: ListTile(
-                  //         // leading: FlutterLogo(size: 72.0),
-                  //         title: Text('Street Light'),
-                  //         subtitle: Text('near krish flat,Nikol gam, Amdavad - 382350'),
-                  //         trailing: Icon(Icons.edit),
-                  //         isThreeLine: true,
-                  //       ),
-                  //     ),
-                  //     Card(
-                  //       child: ListTile(
-                  //         // leading: FlutterLogo(size: 72.0),
-                  //         title: Text('Road'),
-                  //         subtitle: Text(
-                  //             'Vrindavan Society, Bapu Nagar, Ahmedabad  - 382160'),
-                  //         trailing: Icon(Icons.edit),
-                  //         isThreeLine: true,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                ),
+                        //     child: ListView.builder(
+                        //   itemCount: allComplain.length,
+                        //   prototypeItem: ListTile(
+                        //     title: Text(allComplain[0].problem! + ""),
+                        //     subtitle: Text(allComplain[0].address!),
+                        //     trailing: Icon(Icons.edit),
+                        //     isThreeLine: true,
+                        //   ),
+                        //   itemBuilder: (context, index) {
+                        //     return ListTile(
+                        //       title: Text(allComplain[index].problem!),
+                        //       subtitle: Text(
+                        //           "${allComplain[index].address}-${allComplain[index].pincode}"),
+                        //       trailing: Icon(Icons.edit),
+                        //       isThreeLine: true,
+                        //     );
+                        //   },
+                        // )
+                        //  ListView(
+                        //   children: const <Widget>[
+                        //     Card(
+                        //       child: ListTile(
+                        //         // leading: FlutterLogo(size: 72.0),
+                        //         title: Text('Street Light'),
+                        //         subtitle: Text('near krish flat,Nikol gam, Amdavad - 382350'),
+                        //         trailing: Icon(Icons.edit),
+                        //         isThreeLine: true,
+                        //       ),
+                        //     ),
+                        //     Card(
+                        //       child: ListTile(
+                        //         // leading: FlutterLogo(size: 72.0),
+                        //         title: Text('Road'),
+                        //         subtitle: Text(
+                        //             'Vrindavan Society, Bapu Nagar, Ahmedabad  - 382160'),
+                        //         trailing: Icon(Icons.edit),
+                        //         isThreeLine: true,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                      )
+                    : Center(
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/images/No_data.png',
+                                width: 300,
+                                // width: 300,
+                                // height: double.infinity,
+                                // width: double.infinity * .5,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "No Data found!",
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                "Haven't Register problem from your side.",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black45,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
               );
             }
           case ConnectionState.none:
@@ -305,7 +346,9 @@ Widget getSamashya(
         );
       }
       return ListTile(
-        title: Text("waiting..."),
+        title: Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     },
   );

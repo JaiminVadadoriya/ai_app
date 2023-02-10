@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:ai_app/widgets/select_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ai_app/models/complain.dart';
@@ -14,39 +15,48 @@ class InfoProblem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Problem Details"),
+        title: const Text("Problem Details"),
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_rounded),
+          icon: const Icon(Icons.arrow_back_ios_rounded),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(
+          margin: const EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 10,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SelectImage(
+                    problem: complain.problem,
+                    sizeImg: 100,
+                  )
+                ],
+              ),
               Container(
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 15,
                   vertical: 10,
                 ),
                 width: double.infinity,
                 child: Text(
-                  "-${complain.problem}-",
-                  style: TextStyle(
+                  "${complain.problem}",
+                  style: const TextStyle(
                     fontSize: 26,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
-              Text(
+              const Text(
                 "Address:",
                 style: TextStyle(
                   fontSize: 18,
@@ -54,11 +64,11 @@ class InfoProblem extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               Text("${complain.address}"),
-              SizedBox(
-                height: 8,
+              const SizedBox(
+                height: 10,
               ),
-              Divider(),
-              Text(
+              const Divider(),
+              const Text(
                 "Time:",
                 style: TextStyle(
                   fontSize: 18,
@@ -66,11 +76,11 @@ class InfoProblem extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               Text("${complain.complainTime?.toDate()}"),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Divider(),
-              Text(
+              const Divider(),
+              const Text(
                 "Description:",
                 style: TextStyle(
                   fontSize: 18,
@@ -78,11 +88,11 @@ class InfoProblem extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               Text("${complain.description}"),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Divider(),
-              Text(
+              const Divider(),
+              const Text(
                 "Problem Location:",
                 style: TextStyle(
                   fontSize: 18,
@@ -91,11 +101,11 @@ class InfoProblem extends StatelessWidget {
               ),
               Text(
                   "[ ${complain.problemLocation?.latitude} - ${complain.problemLocation?.longitude} ]"),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Divider(),
-              Text(
+              const Divider(),
+              const Text(
                 "Process:",
                 style: TextStyle(
                   fontSize: 18,
@@ -103,11 +113,11 @@ class InfoProblem extends StatelessWidget {
                 textAlign: TextAlign.left,
               ),
               Text("${complain.problemProcess}"),
-              SizedBox(
+              const SizedBox(
                 height: 8,
               ),
-              Divider(),
-              Text(
+              const Divider(),
+              const Text(
                 "Pincode:",
                 style: TextStyle(
                   fontSize: 18,
